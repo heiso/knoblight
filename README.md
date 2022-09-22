@@ -3,6 +3,9 @@
 Knoblight is a little IoT light knob acting as a dimmer for some homeassistant lights.
 Once it's powered, it will connect to a wifi network and discuss with [Home Assistant (https://www.home-assistant.io)](https://www.home-assistant.io/) through [MQTT (https://www.home-assistant.io/integrations/mqtt)](https://www.home-assistant.io/integrations/mqtt/).
 
+<img src="pictures/finished.jpeg" width="500">
+<img src="pictures/opened.jpeg" width="500">  
+
 ![scadview](pictures/scadview.png)
 
 ## Scad design
