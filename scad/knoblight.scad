@@ -1,15 +1,15 @@
 include <openscad-bits/lib.scad>
+include <openscad-bits/lib/pcbs.scad>
 use <openscad-bits/lib.scad>
 
-thin = 0.00001;
-$fn = 360;
-inf = 1e10;
+$fn = 32;
 
 knob_chamfer = 1;
 knob_radius = 55.4 / 2;
 knob_height = 19;
 knob_angle = 15;
 knob_rotation = [ 0, -knob_angle, 0 ];
+knob_rotation_inversed = [ 0, knob_angle, 0 ];
 
 base_height = 12;
 
@@ -35,6 +35,7 @@ module knob()
         {
             union()
             {
+                $fn = 360;
                 translate([ 0, 0, knob_height - knob_chamfer ]) hull()
                 {
                     linear_extrude(height = thin) circle(r = knob_radius);
@@ -62,12 +63,13 @@ module base()
     {
         clip(zmin = 0) base_origin() translate([ 0, 0, -tan(knob_angle) * knob_radius * 2 ]) difference()
         {
+            $fn = 360;
             cylinder(h = base_height + (tan(knob_angle) * knob_radius * 2), r = knob_radius);
             cylinder(h = base_height + (tan(knob_angle) * knob_radius * 2) - 4, r = knob_radius - 4);
         }
 
         rotary_encoder_origin() rotary_encoder(body_top_thickness, cutout = true);
-        wemos_d1_mini_esp8266_origin() wemos_d1_mini_esp8266(cutout = true);
+        translate([ -4, 0, 0 ]) wemos_d1_mini_esp8266_origin() cube([ wemos_d1_mini_esp8266_width + 2, 10, 8 ], true);
         translate([ knob_radius, 0, 0 ]) cube([ 10, 12, 17 ], true);
         bottom_plate();
     }
@@ -94,20 +96,19 @@ module bottom_plate()
 
 if ($preview)
 {
-    $fn = 36;
-    clip(ymin = 0)
+    clip(ymin = 0) // uncomment if you want to see the inside
     {
         knob();
         base();
     }
-    bottom_plate();
+    render() bottom_plate();
 
     rotary_encoder_origin() rotary_encoder(body_top_thickness);
     wemos_d1_mini_esp8266_origin() wemos_d1_mini_esp8266();
 }
 else
 {
-    knob();
-    // base();
-    // translate([ -100, 0, 0 ]) bottom_plate();
+    translate([ knob_radius * 2 + 10, 0, -19.42 ]) rotate(knob_rotation_inversed) knob();
+    translate([ 0, 0, 18.95 ]) rotate([ 180, 0, 0 ]) rotate(knob_rotation_inversed) base();
+    translate([ 0, knob_radius * 2 + 10, 0 ]) bottom_plate();
 }
