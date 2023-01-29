@@ -26,8 +26,8 @@ int delta = 0;
 int brightness = 0;
 const int factor = 10;
 
-const char ssid[] = SSID;
-const char pass[] = PASS;
+const char ssid[] = WIFI_SSID;
+const char pass[] = WIFI_PASS;
 
 WiFiClient net;
 MQTTClient client;

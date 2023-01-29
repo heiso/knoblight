@@ -1,5 +1,4 @@
 include <openscad-bits/lib.scad>
-include <openscad-bits/lib/pcbs.scad>
 use <openscad-bits/lib.scad>
 
 $fn = 32;
